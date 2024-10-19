@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-pwa-assets": "pwa-assets-generator --preset minimal public/logo.svg"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -80,8 +81,10 @@
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
     "@types/three": "^0.169.0",
+    "@vite-pwa/assets-generator": "^0.2.6",
     "@vitejs/plugin-react": "^4.3.3",
     "autoprefixer": "^10.4.20",
+    "cross-env": "^7.0.3",
     "eslint": "^9.11.1",
     "eslint-plugin-react": "^7.37.1",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
@@ -91,6 +94,7 @@
     "tailwindcss": "^3.4.14",
     "terser": "^5.36.0",
     "vite": "^5.4.9",
+    "vite-plugin-pwa": "^0.20.5",
     "vite-plugin-vercel": "^9.0.3"
   }
 }
