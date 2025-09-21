@@ -97,6 +97,8 @@ const RegisterPage = () => {
         e.preventDefault();
         setLoading(true);
         setError("");
+        // Prepare activities with base64 images
+        const activityKeys = ['conferences', 'certifications', 'clubs', 'competitions', 'leadership', 'community'];
         const payload = {
             name: form.name,
             email: form.email,
@@ -106,6 +108,14 @@ const RegisterPage = () => {
             year: form.year,
             branch: form.branch,
         };
+        activityKeys.forEach(key => {
+            payload[key] = (form[key] || []).map(entry => ({
+                name: entry.name,
+                date: entry.date,
+                venue: entry.venue,
+                media_url: entry.media_base64 || null
+            }));
+        });
         try {
             await axios.post("http://localhost:5000/api/auth/register", payload, { withCredentials: true });
             setLoading(false);

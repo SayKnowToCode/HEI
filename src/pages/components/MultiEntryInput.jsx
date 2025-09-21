@@ -13,14 +13,29 @@ export default function MultiEntryInput({ label, entries, onChange, mediaLabel =
     const [localEntries, setLocalEntries] = useState(entries || [{ name: "", date: "", venue: "", media: null }]);
 
     const handleChange = (idx, field, value) => {
-        const updated = localEntries.map((entry, i) =>
-            i === idx ? { ...entry, [field]: value } : entry
-        );
-        setLocalEntries(updated);
-        onChange(updated);
+        if (field === "media" && value) {
+            // Convert file to base64
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const base64 = reader.result;
+                const updated = localEntries.map((entry, i) =>
+                    i === idx ? { ...entry, media: value, media_base64: base64 } : entry
+                );
+                setLocalEntries(updated);
+                onChange(updated);
+            };
+            reader.readAsDataURL(value);
+        } else {
+            const updated = localEntries.map((entry, i) =>
+                i === idx ? { ...entry, [field]: value } : entry
+            );
+            setLocalEntries(updated);
+            onChange(updated);
+        }
     };
 
     const handleAdd = () => {
+        // Always add a fresh, empty entry
         const updated = [...localEntries, { name: "", date: "", venue: "", media: null }];
         setLocalEntries(updated);
         onChange(updated);
