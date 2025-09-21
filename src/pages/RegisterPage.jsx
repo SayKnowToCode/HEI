@@ -85,7 +85,15 @@ const RegisterPage = () => {
             return;
         }
         setError("");
-        setStep((prev) => prev + 1);
+        // If moving to an activity step, reset its entries to a single empty entry
+        const nextStep = step + 1;
+        if (nextStep > 0 && nextStep < steps.length) {
+            const key = steps[nextStep].key;
+            if (key && Array.isArray(form[key]) && form[key].length === 0) {
+                setForm({ ...form, [key]: [{ name: "", date: "", venue: "", media: null, media_base64: "" }] });
+            }
+        }
+        setStep(nextStep);
     };
 
     const handlePrev = () => {
