@@ -3,57 +3,57 @@
 @tailwind utilities;
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --background: 165 100% 98%; /* light teal */
+    --foreground: 262 71% 15%; /* deep violet */
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem
+    --card-foreground: 262 71% 15%;
+    --popover: 165 100% 95%;
+    --popover-foreground: 262 71% 15%;
+    --primary: 16 100% 50%; /* vibrant orange */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 90 100% 70%; /* lime */
+    --secondary-foreground: 262 71% 15%;
+    --muted: 340 82% 85%; /* rose */
+    --muted-foreground: 262 71% 15%;
+    --accent: 262 100% 80%; /* violet accent */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 100% 67%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 262 71% 85%;
+    --input: 165 100% 90%;
+    --ring: 262 100% 80%;
+    --chart-1: 165 100% 60%; /* teal */
+    --chart-2: 16 100% 50%; /* orange */
+    --chart-3: 262 100% 80%; /* violet */
+    --chart-4: 90 100% 70%; /* lime */
+    --chart-5: 340 82% 85%; /* rose */
+    --radius: 0.75rem;
   }
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 267 100% 67%;
+    --background: 262 71% 10%; /* deep violet */
+    --foreground: 165 100% 98%; /* light teal */
+    --card: 262 71% 12%;
+    --card-foreground: 165 100% 98%;
+    --popover: 262 71% 15%;
+    --popover-foreground: 165 100% 98%;
+    --primary: 16 100% 60%; /* orange */
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 267 30% 15.9%;
-    --muted-foreground: 240 5% 84.9%;
-    --accent: 267 30% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 267 30% 26%;
-    --input: 267 30% 15.9%;
-    --ring: 267 80% 67%;
-    --chart-1: 267 70% 67%;
-    --chart-2: 280 65% 60%;
-    --chart-3: 250 75% 55%;
-    --chart-4: 290 70% 50%;
-    --chart-5: 260 80% 45%
+    --secondary: 90 100% 50%; /* lime */
+    --secondary-foreground: 165 100% 98%;
+    --muted: 340 82% 40%; /* rose */
+    --muted-foreground: 165 100% 98%;
+    --accent: 262 100% 60%; /* violet accent */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 262 71% 30%;
+    --input: 262 71% 20%;
+    --ring: 262 100% 60%;
+    --chart-1: 165 100% 40%; /* teal */
+    --chart-2: 16 100% 60%; /* orange */
+    --chart-3: 262 100% 60%; /* violet */
+    --chart-4: 90 100% 50%; /* lime */
+    --chart-5: 340 82% 40%; /* rose */
   }
 }
 @layer base {

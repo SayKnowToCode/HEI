@@ -1,155 +1,137 @@
-import React from 'react';
-import { Card, CardContent } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
-import { AiOutlinePlus } from 'react-icons/ai';
 
-const mockData = {
-  campaigns: [
-    {
-      name: "Summer Campaign",
-      description: "Summer sales promotion",
-      targetedAudience: "Youth 18-25",
-      category: ["retail", "fashion"],
-      isActive: true,
-      tweets: ["tweet1", "tweet2"]
-    },
-    // ...add more mock campaigns
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+const student = {
+  name: "Aarav Sharma",
+  email: "aarav.sharma@hei.edu",
+  program: "B.Tech Computer Science",
+  year: "3rd Year",
+  roll: "CS2023001",
+  achievements: [
+    { type: "Certification", title: "AWS Cloud Practitioner", date: "Aug 2025", status: "Verified" },
+    { type: "Workshop", title: "AI in Education", date: "Jul 2025", status: "Pending" },
+    { type: "Competition", title: "Hackathon Winner", date: "May 2025", status: "Verified" },
+    { type: "Volunteering", title: "Blood Donation Camp", date: "Apr 2025", status: "Verified" },
+    { type: "Internship", title: "Web Dev Intern @TechCorp", date: "Jan-Jun 2025", status: "Verified" },
   ],
-  stats: [
-    { name: 'Jan', followers: 400 },
-    { name: 'Feb', followers: 600 },
-    { name: 'Mar', followers: 800 },
-    { name: 'Apr', followers: 1000 },
-  ],
-  complaints: [
-    { id: 1, name: "Issue #1", description: "Service complaint" },
-    { id: 2, name: "Issue #2", description: "Content complaint" },
-  ]
+  stats: {
+    totalAchievements: 12,
+    verified: 9,
+    pending: 3,
+    events: 7,
+    certifications: 3,
+    internships: 2,
+  }
 };
 
 const Dashboard = () => {
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-100 flex flex-col">
-      {/* Header Section */}
-      <div className="p-6 border-b border-purple-500/30">
-        <h1 className="text-2xl font-bold text-purple-100 flex items-center gap-2">
-          <span>🎯 Campaign Dashboard</span>
-        </h1>
-      </div>
+    <div className="min-h-screen flex flex-col items-center py-12 px-4 bg-gray-50 dark:bg-gray-950">
+      <div className="w-full max-w-4xl">
+        <Card className="mb-8 shadow-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">Welcome, {student.name}</CardTitle>
+            <CardDescription className="text-gray-700 dark:text-gray-300">{student.program} &bull; {student.year} &bull; Roll: {student.roll}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
+              <div>
+                <p className="text-lg font-semibold">Email: <span className="text-purple-700 dark:text-purple-300">{student.email}</span></p>
+                <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">Build your verified digital portfolio and track all your achievements in one place.</p>
+              </div>
+              <Button variant="secondary" className="px-6 py-2">Download Portfolio</Button>
+            </div>
+          </CardContent>
+        </Card>
 
-      {/* Upper Section - Campaigns */}
-      <div className="flex-1 p-6">
-        <h2 className="text-xl font-semibold text-purple-100 mb-4 flex items-center gap-2">
-          <span>📢 Active Campaigns</span>
-          <span className="text-sm text-purple-400 bg-purple-950 px-3 py-1 rounded-full">
-            {mockData.campaigns.length} Active
-          </span>
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-          {mockData.campaigns.map((campaign, index) => (
-            <Card 
-              key={index}
-              className="hover:shadow-purple-500/10 hover:border-purple-500/50 transition-all cursor-pointer bg-gray-900 border border-purple-500/20 group"
-            >
-              <CardContent className="p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-semibold text-purple-100 group-hover:text-purple-300 transition-colors">
-                    {campaign.name}
-                  </h3>
-                  <span className="text-xl">🚀</span>
-                </div>
-                <p className="text-sm text-gray-400">{campaign.description}</p>
-                <p className="text-sm text-gray-400 flex items-center gap-2">
-                  <span>👥</span> {campaign.targetedAudience}
-                </p>
-                <div className="mt-4 flex justify-between items-center">
-                  <span className="text-sm text-purple-300 flex items-center gap-2">
-                    <span>⚡</span> Status
-                  </span>
-                  <Switch checked={campaign.isActive} />
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-          <Card className="hover:shadow-purple-500/10 hover:border-purple-500/50 transition-all cursor-pointer bg-gray-900/50 border border-purple-500/20 flex items-center justify-center group">
-            <CardContent className="p-4 flex flex-col items-center justify-center gap-2">
-              <AiOutlinePlus size={40} className="text-purple-400 group-hover:text-purple-300 transition-colors" />
-              <span className="text-sm text-purple-300">Add Campaign</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          <Card className="shadow-sm border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+            <CardHeader>
+              <CardTitle className="text-base font-semibold text-gray-900 dark:text-white">Achievements & Activities</CardTitle>
+              <CardDescription className="text-gray-700 dark:text-gray-300">Recent uploads and status</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-4">
+                {student.achievements.map((ach, idx) => (
+                  <li key={idx} className="flex flex-col md:flex-row md:items-center justify-between bg-white dark:bg-gray-900 rounded-lg p-3 border border-gray-200 dark:border-gray-800">
+                    <div>
+                      <span className="font-semibold text-purple-700 dark:text-purple-200">{ach.type}:</span> <span className="text-gray-900 dark:text-gray-100">{ach.title}</span>
+                      <span className="ml-2 text-xs text-gray-700 dark:text-gray-300">({ach.date})</span>
+                    </div>
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium border ${ach.status === "Verified" ? "bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200 border-green-200 dark:border-green-800" : "bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-200 border-yellow-200 dark:border-yellow-800"}`}>
+                      {ach.status}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </CardContent>
           </Card>
-        </div>
-      </div>
-
-      {/* Lower Section */}
-      <div className="flex-1 p-6 flex gap-6">
-        {/* Statistics Section */}
-        <div className="flex-1">
-          <Card className="bg-gray-900 border border-purple-500/20">
-            <CardContent className="p-6">
-              <h3 className="text-xl font-semibold mb-6 text-purple-100 flex items-center gap-2">
-                <span>📊</span> Performance Analytics
-              </h3>
-              <LineChart width={500} height={300} data={mockData.stats}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                <XAxis dataKey="name" stroke="#9CA3AF" />
-                <YAxis stroke="#9CA3AF" />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: '#111827',
-                    border: '1px solid rgba(147, 51, 234, 0.2)',
-                    borderRadius: '6px'
-                  }}
-                />
-                <Line type="monotone" dataKey="followers" stroke="#8B5CF6" />
-              </LineChart>
-              <div className="mt-6 grid grid-cols-3 gap-4">
-                <div className="p-3 bg-gray-800 rounded-lg">
-                  <p className="text-sm text-gray-400">Followers</p>
-                  <p className="text-xl text-purple-300">👥 1,000</p>
+          <Card className="shadow-sm border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+            <CardHeader>
+              <CardTitle className="text-base font-semibold text-gray-900 dark:text-white">Analytics & Summary</CardTitle>
+              <CardDescription className="text-gray-700 dark:text-gray-300">Quick stats for your profile</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-800 flex flex-col items-center">
+                  <span className="text-2xl font-bold text-purple-700 dark:text-purple-300">{student.stats.totalAchievements}</span>
+                  <span className="text-sm text-gray-700 dark:text-gray-300">Total Achievements</span>
                 </div>
-                <div className="p-3 bg-gray-800 rounded-lg">
-                  <p className="text-sm text-gray-400">Reach</p>
-                  <p className="text-xl text-purple-300">🎯 5,000</p>
+                <div className="bg-white dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-800 flex flex-col items-center">
+                  <span className="text-2xl font-bold text-green-700 dark:text-green-300">{student.stats.verified}</span>
+                  <span className="text-sm text-gray-700 dark:text-gray-300">Verified</span>
                 </div>
-                <div className="p-3 bg-gray-800 rounded-lg">
-                  <p className="text-sm text-gray-400">Engagement</p>
-                  <p className="text-xl text-purple-300">⚡ 3.2%</p>
+                <div className="bg-white dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-800 flex flex-col items-center">
+                  <span className="text-2xl font-bold text-yellow-700 dark:text-yellow-300">{student.stats.pending}</span>
+                  <span className="text-sm text-gray-700 dark:text-gray-300">Pending</span>
+                </div>
+                <div className="bg-white dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-800 flex flex-col items-center">
+                  <span className="text-2xl font-bold text-blue-700 dark:text-blue-300">{student.stats.events}</span>
+                  <span className="text-sm text-gray-700 dark:text-gray-300">Events</span>
+                </div>
+                <div className="bg-white dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-800 flex flex-col items-center">
+                  <span className="text-2xl font-bold text-pink-700 dark:text-pink-300">{student.stats.certifications}</span>
+                  <span className="text-sm text-gray-700 dark:text-gray-300">Certifications</span>
+                </div>
+                <div className="bg-white dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-800 flex flex-col items-center">
+                  <span className="text-2xl font-bold text-indigo-700 dark:text-indigo-300">{student.stats.internships}</span>
+                  <span className="text-sm text-gray-700 dark:text-gray-300">Internships</span>
                 </div>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Complaints Section */}
-        <div className="flex-1">
-          <Card className="bg-gray-900 border border-purple-500/20">
-            <CardContent className="p-6">
-              <h3 className="text-xl font-semibold mb-6 text-purple-100 flex items-center gap-2">
-                <span>🔔</span> Recent Issues
-              </h3>
-              {mockData.complaints.map((complaint) => (
-                <div 
-                  key={complaint.id} 
-                  className="mt-2 p-4 border border-purple-500/20 rounded-md bg-gray-800 hover:bg-gray-800/80 transition-colors group"
-                >
-                  <h4 className="font-medium text-purple-200 flex items-center gap-2">
-                    <span>⚠️</span> {complaint.name}
-                  </h4>
-                  <p className="text-sm text-gray-400 mt-2">{complaint.description}</p>
-                  <div className="mt-2 flex justify-end">
-                    <span className="text-xs text-purple-400 bg-purple-950/50 px-2 py-1 rounded-full">
-                      Pending Review
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
+        <Card className="shadow-sm border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+          <CardHeader>
+            <CardTitle className="text-base font-semibold text-gray-900 dark:text-white">Activity Tracker</CardTitle>
+            <CardDescription className="text-gray-700 dark:text-gray-300">Upload new achievement or activity</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form className="flex flex-col md:flex-row gap-4 items-center">
+              <input type="text" placeholder="Activity Title" className="w-full md:w-1/3 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 py-2 px-3 text-base focus:border-purple-500 focus:outline-none focus:ring-purple-500 text-gray-900 dark:text-white" />
+              <select className="w-full md:w-1/4 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 py-2 px-3 text-base focus:border-purple-500 focus:outline-none focus:ring-purple-500 text-gray-900 dark:text-white">
+                <option>Certification</option>
+                <option>Workshop</option>
+                <option>Competition</option>
+                <option>Volunteering</option>
+                <option>Internship</option>
+              </select>
+              <input type="date" className="w-full md:w-1/4 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 py-2 px-3 text-base focus:border-purple-500 focus:outline-none focus:ring-purple-500 text-gray-900 dark:text-white" />
+              <Button type="submit" className="w-full md:w-auto">Upload</Button>
+            </form>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
 };
 
 export default Dashboard;
+
+
+
+
+
+
