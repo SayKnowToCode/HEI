@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -7,6 +9,7 @@ const LoginPage = () => {
     const [form, setForm] = useState({ email: "", password: "" });
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -17,23 +20,19 @@ const LoginPage = () => {
         e.preventDefault();
         setError("");
         setLoading(true);
-        // Basic validation
         if (!form.email || !form.password) {
             setError("Please enter both email and password.");
             setLoading(false);
             return;
         }
-        // Simulate login API call
-        setTimeout(() => {
+        try {
+            await axios.post("http://localhost:5000/api/auth/login", form, { withCredentials: true });
             setLoading(false);
-            if (form.email === "student@hei.edu" && form.password === "password") {
-                // Success: redirect or show success
-                setError("");
-                alert("Login successful!");
-            } else {
-                setError("Invalid credentials. Please try again.");
-            }
-        }, 1200);
+            navigate("/dashboard");
+        } catch (err) {
+            setLoading(false);
+            setError(err?.response?.data?.error || "Invalid credentials. Please try again.");
+        }
     };
 
     return (

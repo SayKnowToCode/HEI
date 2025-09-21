@@ -1,5 +1,7 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -46,6 +48,7 @@ const RegisterPage = () => {
     const [step, setStep] = useState(0);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -94,11 +97,23 @@ const RegisterPage = () => {
         e.preventDefault();
         setLoading(true);
         setError("");
-        // Simulate register API call
-        setTimeout(() => {
+        const payload = {
+            name: form.name,
+            email: form.email,
+            password: form.password,
+            enrollment_number: form.roll,
+            college_name: form.college,
+            year: form.year,
+            branch: form.branch,
+        };
+        try {
+            await axios.post("http://localhost:5000/api/auth/register", payload, { withCredentials: true });
             setLoading(false);
-            alert("Registration successful! You can now login.");
-        }, 1200);
+            navigate("/login");
+        } catch (err) {
+            setLoading(false);
+            setError(err?.response?.data?.error || "Registration failed");
+        }
     };
 
     return (

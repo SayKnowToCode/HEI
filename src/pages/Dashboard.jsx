@@ -1,43 +1,47 @@
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-const student = {
-  name: "Aarav Sharma",
-  email: "aarav.sharma@hei.edu",
-  program: "B.Tech Computer Science",
-  year: "3rd Year",
-  roll: "CS2023001",
-  achievements: [
-    { type: "Certification", title: "AWS Cloud Practitioner", date: "Aug 2025", status: "Verified" },
-    { type: "Workshop", title: "AI in Education", date: "Jul 2025", status: "Pending" },
-    { type: "Competition", title: "Hackathon Winner", date: "May 2025", status: "Verified" },
-    { type: "Volunteering", title: "Blood Donation Camp", date: "Apr 2025", status: "Verified" },
-    { type: "Internship", title: "Web Dev Intern @TechCorp", date: "Jan-Jun 2025", status: "Verified" },
-  ],
-  stats: {
-    totalAchievements: 12,
-    verified: 9,
-    pending: 3,
-    events: 7,
-    certifications: 3,
-    internships: 2,
-  }
-};
-
 const Dashboard = () => {
+  const [student, setStudent] = useState(null);
+  const [activities, setActivities] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function fetchDashboard() {
+      setLoading(true);
+      try {
+        const res = await axios.get("http://localhost:5000/api/dashboard", { withCredentials: true });
+        setStudent(res.data.dashboard.student);
+        setActivities(res.data.dashboard.activities);
+        setLoading(false);
+      } catch (err) {
+        setError(err?.response?.data?.error || "Failed to load dashboard");
+        setLoading(false);
+      }
+    }
+    fetchDashboard();
+  }, []);
+
+  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  if (error) return <div className="min-h-screen flex items-center justify-center text-red-600">{error}</div>;
+
   return (
     <div className="min-h-screen flex flex-col items-center py-12 px-4 bg-gray-50 dark:bg-gray-950">
       <div className="w-full max-w-4xl">
         <Card className="mb-8 shadow-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
           <CardHeader>
-            <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">Welcome, {student.name}</CardTitle>
-            <CardDescription className="text-gray-700 dark:text-gray-300">{student.program} &bull; {student.year} &bull; Roll: {student.roll}</CardDescription>
+            <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">Welcome, {student?.name}</CardTitle>
+            <CardDescription className="text-gray-700 dark:text-gray-300">{student?.branch} &bull; {student?.year} &bull; Roll: {student?.enrollment_number}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
               <div>
-                <p className="text-lg font-semibold">Email: <span className="text-purple-700 dark:text-purple-300">{student.email}</span></p>
+                <p className="text-lg font-semibold">Email: <span className="text-purple-700 dark:text-purple-300">{student?.email}</span></p>
                 <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">Build your verified digital portfolio and track all your achievements in one place.</p>
               </div>
               <Button variant="secondary" className="px-6 py-2">Download Portfolio</Button>
@@ -53,15 +57,13 @@ const Dashboard = () => {
             </CardHeader>
             <CardContent>
               <ul className="space-y-4">
-                {student.achievements.map((ach, idx) => (
+                {activities.map((ach, idx) => (
                   <li key={idx} className="flex flex-col md:flex-row md:items-center justify-between bg-white dark:bg-gray-900 rounded-lg p-3 border border-gray-200 dark:border-gray-800">
                     <div>
-                      <span className="font-semibold text-purple-700 dark:text-purple-200">{ach.type}:</span> <span className="text-gray-900 dark:text-gray-100">{ach.title}</span>
-                      <span className="ml-2 text-xs text-gray-700 dark:text-gray-300">({ach.date})</span>
+                      <span className="font-semibold text-purple-700 dark:text-purple-200">{ach.type}:</span> <span className="text-gray-900 dark:text-gray-100">{ach.name}</span>
+                      <span className="ml-2 text-xs text-gray-700 dark:text-gray-300">({ach.date?.slice(0, 10)})</span>
                     </div>
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium border ${ach.status === "Verified" ? "bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200 border-green-200 dark:border-green-800" : "bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-200 border-yellow-200 dark:border-yellow-800"}`}>
-                      {ach.status}
-                    </span>
+                    {ach.media_url && <a href={ach.media_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline ml-2">View Media</a>}
                   </li>
                 ))}
               </ul>
@@ -75,58 +77,20 @@ const Dashboard = () => {
             <CardContent>
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-white dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-800 flex flex-col items-center">
-                  <span className="text-2xl font-bold text-purple-700 dark:text-purple-300">{student.stats.totalAchievements}</span>
+                  <span className="text-2xl font-bold text-purple-700 dark:text-purple-300">{activities.length}</span>
                   <span className="text-sm text-gray-700 dark:text-gray-300">Total Achievements</span>
                 </div>
-                <div className="bg-white dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-800 flex flex-col items-center">
-                  <span className="text-2xl font-bold text-green-700 dark:text-green-300">{student.stats.verified}</span>
-                  <span className="text-sm text-gray-700 dark:text-gray-300">Verified</span>
-                </div>
-                <div className="bg-white dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-800 flex flex-col items-center">
-                  <span className="text-2xl font-bold text-yellow-700 dark:text-yellow-300">{student.stats.pending}</span>
-                  <span className="text-sm text-gray-700 dark:text-gray-300">Pending</span>
-                </div>
-                <div className="bg-white dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-800 flex flex-col items-center">
-                  <span className="text-2xl font-bold text-blue-700 dark:text-blue-300">{student.stats.events}</span>
-                  <span className="text-sm text-gray-700 dark:text-gray-300">Events</span>
-                </div>
-                <div className="bg-white dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-800 flex flex-col items-center">
-                  <span className="text-2xl font-bold text-pink-700 dark:text-pink-300">{student.stats.certifications}</span>
-                  <span className="text-sm text-gray-700 dark:text-gray-300">Certifications</span>
-                </div>
-                <div className="bg-white dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-800 flex flex-col items-center">
-                  <span className="text-2xl font-bold text-indigo-700 dark:text-indigo-300">{student.stats.internships}</span>
-                  <span className="text-sm text-gray-700 dark:text-gray-300">Internships</span>
-                </div>
+                {/* Add more analytics as needed */}
               </div>
             </CardContent>
           </Card>
         </div>
 
-        <Card className="shadow-sm border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
-          <CardHeader>
-            <CardTitle className="text-base font-semibold text-gray-900 dark:text-white">Activity Tracker</CardTitle>
-            <CardDescription className="text-gray-700 dark:text-gray-300">Upload new achievement or activity</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form className="flex flex-col md:flex-row gap-4 items-center">
-              <input type="text" placeholder="Activity Title" className="w-full md:w-1/3 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 py-2 px-3 text-base focus:border-purple-500 focus:outline-none focus:ring-purple-500 text-gray-900 dark:text-white" />
-              <select className="w-full md:w-1/4 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 py-2 px-3 text-base focus:border-purple-500 focus:outline-none focus:ring-purple-500 text-gray-900 dark:text-white">
-                <option>Certification</option>
-                <option>Workshop</option>
-                <option>Competition</option>
-                <option>Volunteering</option>
-                <option>Internship</option>
-              </select>
-              <input type="date" className="w-full md:w-1/4 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 py-2 px-3 text-base focus:border-purple-500 focus:outline-none focus:ring-purple-500 text-gray-900 dark:text-white" />
-              <Button type="submit" className="w-full md:w-auto">Upload</Button>
-            </form>
-          </CardContent>
-        </Card>
+        {/* Activity upload form can be integrated here */}
       </div>
     </div>
   );
-};
+}
 
 export default Dashboard;
 
