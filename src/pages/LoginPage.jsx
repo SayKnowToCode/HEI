@@ -28,9 +28,16 @@ const LoginPage = () => {
                 return;
             }
             try {
-                await axios.post("http://localhost:5000/api/auth/login", { email: form.email, password: form.password }, { withCredentials: true });
-                setLoading(false);
-                navigate("/dashboard");
+                const res = await axios.post("http://localhost:5000/api/auth/login", { email: form.email, password: form.password });
+                // Expect backend to return { user_id: ... }
+                if (res.data && res.data.user_id) {
+                    localStorage.setItem("user_id", res.data.user_id);
+                    setLoading(false);
+                    navigate("/dashboard");
+                } else {
+                    setLoading(false);
+                    setError("Login failed: No user_id returned.");
+                }
             } catch (err) {
                 setLoading(false);
                 setError(err?.response?.data?.error || "Invalid credentials. Please try again.");
@@ -42,9 +49,16 @@ const LoginPage = () => {
                 return;
             }
             try {
-                await axios.post("http://localhost:5000/api/college/login", { name: form.name, password: form.password }, { withCredentials: true });
-                setLoading(false);
-                navigate("/college-dashboard");
+                const res = await axios.post("http://localhost:5000/api/college/login", { name: form.name, password: form.password });
+                // Expect backend to return { college_id: ... }
+                if (res.data && res.data.college_id) {
+                    localStorage.setItem("college_id", res.data.college_id);
+                    setLoading(false);
+                    navigate("/college-dashboard");
+                } else {
+                    setLoading(false);
+                    setError("Login failed: No college_id returned.");
+                }
             } catch (err) {
                 setLoading(false);
                 setError(err?.response?.data?.error || "Invalid credentials. Please try again.");

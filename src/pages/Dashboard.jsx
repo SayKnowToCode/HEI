@@ -24,8 +24,14 @@ export default function Dashboard() {
 
   useEffect(() => {
     const fetchDashboard = async () => {
+      const user_id = localStorage.getItem('user_id');
+      if (!user_id) {
+        setLoading(false);
+        console.error('No user_id found in localStorage');
+        return;
+      }
       try {
-        const response = await fetch('http://localhost:5000/api/dashboard');
+        const response = await fetch(`http://localhost:5000/api/dashboard?user_id=${user_id}`);
         if (response.ok) {
           const data = await response.json();
           setDashboardData(data.dashboard);
@@ -38,7 +44,6 @@ export default function Dashboard() {
         setLoading(false);
       }
     };
-    
     fetchDashboard();
   }, []);
 
@@ -67,14 +72,14 @@ export default function Dashboard() {
                 <div>
                   <h1 className="text-3xl font-bold text-indigo-800">Student Dashboard</h1>
                   <p className="text-gray-600 font-medium">
-                    {dashboardData.student.name} 
+                    {dashboardData.student.name}
                     <span className="text-indigo-500 ml-2">({dashboardData.student.enrollment_number})</span>
                   </p>
                   <p className="text-sm text-gray-500">{dashboardData.student.college.name}</p>
                 </div>
               </div>
-              <Button 
-                onClick={handleDownloadPortfolio} 
+              <Button
+                onClick={handleDownloadPortfolio}
                 className="bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white flex items-center gap-2 transition-all shadow-lg hover:shadow-xl"
               >
                 <FaFilePdf /> Download Portfolio
@@ -94,8 +99,8 @@ export default function Dashboard() {
               </span>
               <div className="w-full h-2 bg-gray-100 rounded-full mt-3 overflow-hidden">
                 <div
-                  className={`h-full ${dashboardData.attendance.overall_percentage >= 75 
-                    ? 'bg-gradient-to-r from-green-400 to-green-500' 
+                  className={`h-full ${dashboardData.attendance.overall_percentage >= 75
+                    ? 'bg-gradient-to-r from-green-400 to-green-500'
                     : 'bg-gradient-to-r from-red-400 to-red-500'}`}
                   style={{ width: `${dashboardData.attendance.overall_percentage}%` }}
                 />
@@ -161,11 +166,10 @@ export default function Dashboard() {
                   <Card key={index} className="p-4 bg-white border-2 border-indigo-50 hover:border-indigo-100 transition-all">
                     <div className="flex justify-between items-center mb-2">
                       <h3 className="font-semibold text-indigo-800">{subject.subject}</h3>
-                      <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                        subject.percentage >= 75 
-                          ? 'bg-green-100 text-green-700' 
+                      <span className={`px-3 py-1 rounded-full text-xs font-bold ${subject.percentage >= 75
+                          ? 'bg-green-100 text-green-700'
                           : 'bg-red-100 text-red-700'
-                      }`}>
+                        }`}>
                         {subject.percentage.toFixed(1)}%
                       </span>
                     </div>
@@ -174,8 +178,8 @@ export default function Dashboard() {
                     </div>
                     <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                       <div
-                        className={`h-full ${subject.percentage >= 75 
-                          ? 'bg-gradient-to-r from-green-400 to-green-500' 
+                        className={`h-full ${subject.percentage >= 75
+                          ? 'bg-gradient-to-r from-green-400 to-green-500'
                           : 'bg-gradient-to-r from-red-400 to-red-500'}`}
                         style={{ width: `${subject.percentage}%` }}
                       />
@@ -200,9 +204,8 @@ export default function Dashboard() {
                     >
                       <div className="w-full bg-gray-50 rounded-t relative" style={{ height: '100%' }}>
                         <div
-                          className={`w-full absolute bottom-0 ${
-                            day.percentage >= 75 ? 'bg-green-400' : 'bg-red-400'
-                          } rounded-t transition-all duration-300 ease-in-out hover:opacity-80`}
+                          className={`w-full absolute bottom-0 ${day.percentage >= 75 ? 'bg-green-400' : 'bg-red-400'
+                            } rounded-t transition-all duration-300 ease-in-out hover:opacity-80`}
                           style={{ height: `${day.percentage}%` }}
                         />
                       </div>
@@ -244,11 +247,10 @@ export default function Dashboard() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{record.subject}</td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                          record.status === 'Present' 
-                            ? 'bg-green-100 text-green-700' 
+                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${record.status === 'Present'
+                            ? 'bg-green-100 text-green-700'
                             : 'bg-red-100 text-red-700'
-                        }`}>
+                          }`}>
                           {record.status}
                         </span>
                       </td>
@@ -282,8 +284,8 @@ export default function Dashboard() {
 //               <p className="text-sm text-gray-500">{dashboardData.student.college.name}</p>
 //             </div>
 //           </div>
-//           <Button 
-//             onClick={handleDownloadPortfolio} 
+//           <Button
+//             onClick={handleDownloadPortfolio}
 //             className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2 transition-colors"
 //           >
 //             <FaFilePdf /> Download Portfolio
@@ -483,7 +485,7 @@ export default function Dashboard() {
 //                     <td className="py-2 px-4">{record.subject}</td>
 //                     <td className="py-2 px-4">
 //                       <span className={`px-2 py-1 rounded text-xs font-semibold ${
-//                         record.status === 'Present' 
+//                         record.status === 'Present'
 //                           ? 'bg-green-100 text-green-700'
 //                           : 'bg-red-100 text-red-700'
 //                       }`}>

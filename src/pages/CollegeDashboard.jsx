@@ -10,9 +10,14 @@ const CollegeDashboard = () => {
     useEffect(() => {
         async function fetchCollege() {
             setLoading(true);
+            const college_id = localStorage.getItem("college_id");
+            if (!college_id) {
+                setError("No college_id found in localStorage");
+                setLoading(false);
+                return;
+            }
             try {
-                // Get college info from session (backend should return on login)
-                const res = await axios.get("http://localhost:5000/api/college/dashboard", { withCredentials: true });
+                const res = await axios.get(`http://localhost:5000/api/college/dashboard?college_id=${college_id}`);
                 setCollege(res.data.college);
                 setLoading(false);
             } catch (err) {
