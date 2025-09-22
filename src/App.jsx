@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import CollegeDashboard from './pages/CollegeDashboard';
+import MyProfilePage from "./pages/MyProfilePage";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/college-dashboard" element={<CollegeDashboard />} />
+        <Route path="/my-profile" element={<MyProfilePage />} />
       </Routes>
     </div>
   );
